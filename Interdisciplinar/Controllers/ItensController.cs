@@ -1,115 +1,125 @@
-﻿using Modelos.Cadastros;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Linq;
+using System.Net;
+using System.Web;
+using System.Web.Mvc;
+using Modelos.Cadastros;
 using Persistencia.Context;
 using Servicos.Cadastros;
-using System.Net;
-using System.Web.Mvc;
 
 namespace Interdisciplinar.Controllers
 {
-    public class CategoriasController : Controller
+    public class ItensController : Controller
     {
         #region [Metodos]
         private EFContext db = new EFContext();
-        private CategoriaServicos categoriaServico = new CategoriaServicos();
+        private ItemServicos itemServicos = new ItemServicos();
 
-        private ActionResult GetViewCategoriaId(long? id)
+        private ActionResult GetViewItemId(long? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Categoria categoria = categoriaServico.ById((long)id);
-            if(categoria == null)
+            Item item = itemServicos.ById((long)id);
+            if (item == null)
             {
                 return HttpNotFound();
             }
-            return View(categoria);
+            return View(item);
         }
-        private ActionResult SalveCategoria(Categoria categoria)
+        private ActionResult SalveItem(Item item)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    categoriaServico.Save(categoria);
+                    itemServicos.Save(item);
                     return RedirectToAction("Index");
                 }
-                return View(categoria);
+                return View(item);
             }
             catch
             {
-                return View(categoria);
+                return View(item);
             }
         }
-        private void PopularViewBag(Categoria categoria = null)
+        private void PopularViewBag(Item item = null)
         {
-            if(categoria == null)
+            if (item == null)
             {
-                ViewBag.id = new SelectList(categoriaServico.GetOrderedByName(),
+                ViewBag.id = new SelectList(itemServicos.GetOrderedByName(),
                     "id", "nome");
             }
         }
 
         #endregion [Metodos]
-        // GET: Categorias
+
+        // GET: Itens
         public ActionResult Index()
         {
-            return View(categoriaServico.GetOrderedByName());
+           
+            return View(itemServicos.GetOrderedByName());
         }
 
-        // GET: Categorias/Details/5
+        // GET: Itens/Details/5
         public ActionResult Details(long? id)
         {
-            return GetViewCategoriaId(id);
+           
+            return GetViewItemId(id);
         }
 
-        // GET: Categorias/Create
+        // GET: Itens/Create
         public ActionResult Create()
         {
             PopularViewBag();
             return View();
         }
 
-        // POST: Categorias/Create
+        // POST: Itens/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nome")] Categoria categoria)
+        public ActionResult Create([Bind(Include = "Id,nome,categoriaId")] Item item)
         {
-            return SalveCategoria(categoria);
+            return SalveItem(item);
         }
 
-        // GET: Categorias/Edit/5
+        // GET: Itens/Edit/5
         public ActionResult Edit(long? id)
         {
-            PopularViewBag(categoriaServico.ById((long)id));
-            return GetViewCategoriaId(id);
+            PopularViewBag(itemServicos.ById((long)id));
+            return GetViewItemId(id);
         }
 
-        // POST: Categorias/Edit/5
+        // POST: Itens/Edit/5
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nome")] Categoria categoria)
+        public ActionResult Edit([Bind(Include = "Id,nome,categoriaId")] Item item)
         {
-            return SalveCategoria(categoria);
+            
+            return SalveItem(item);
         }
 
-        // GET: Categorias/Delete/5
+        // GET: Itens/Delete/5
         public ActionResult Delete(long? id)
         {
-            return GetViewCategoriaId(id);
+            return GetViewItemId(id);
         }
 
-        // POST: Categorias/Delete/5
+        // POST: Itens/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Categoria categoria = categoriaServico.Delete(id);
-            TempData["Message"] = "Categoria" + categoria.nome.ToUpper() + "Foi Removida";
+            Item item = itemServicos.Delete(id);
+            TempData["Message"] = "Itens" + item.nome.ToUpper() + "Foi Removido";
             return RedirectToAction("Index");
         }
 

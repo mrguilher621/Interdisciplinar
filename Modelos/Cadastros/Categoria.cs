@@ -1,14 +1,17 @@
-﻿using System;
+﻿using Modelos.Cadastros;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Interdisciplinar.Models
+namespace Modelos.Cadastros
 {
     public class Categoria
     {
-        public int id { get; set; }
+        public long? id { get; set; }
         public String nome { get; set; }
+
+        public virtual ICollection<Item> Itens { get; set; }
     }
     public class RootObject
     {

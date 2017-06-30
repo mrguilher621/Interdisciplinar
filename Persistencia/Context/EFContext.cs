@@ -1,15 +1,12 @@
-﻿using Interdisciplinar.Models;
-using System;
-using System.Collections.Generic;
+﻿using Modelos.Cadastros;
 using System.Data.Entity;
-using System.Linq;
-using System.Web;
 
-namespace Interdisciplinar.Context
+namespace Persistencia.Context
 {
     public class EFContext :DbContext
     {
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Item> Itens { get; set; }
         
         public EFContext()
         : base("Asp_Net_MVC_CS")
