@@ -1,4 +1,4 @@
-﻿@model Interdisciplinar.Models.Categoria
+﻿@model Modelos.Cadastros.Categoria
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -25,7 +25,7 @@
         </dl>
     </div>
     <p>
-        @Html.ActionLink("Editar", "Edit", new { id = Model.id }) |
+        @Html.ActionLink("Editar", "Edit", new { id = Model.CategoriaId }) |
         @Html.ActionLink("Voltar", "Index")
     </p>
 </body>

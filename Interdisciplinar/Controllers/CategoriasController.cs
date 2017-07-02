@@ -45,8 +45,8 @@ namespace Interdisciplinar.Controllers
         {
             if(categoria == null)
             {
-                ViewBag.id = new SelectList(categoriaServico.GetOrderedByName(),
-                    "id", "nome");
+                ViewBag.CategoriaId = new SelectList(categoriaServico.GetOrderedByName(),
+                    "CategoriaId", "nome");
             }
         }
 
@@ -75,7 +75,7 @@ namespace Interdisciplinar.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,nome")] Categoria categoria)
+        public ActionResult Create([Bind(Include = "CategoriaId,nome")] Categoria categoria)
         {
             return SalveCategoria(categoria);
         }
@@ -92,7 +92,7 @@ namespace Interdisciplinar.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "id,nome")] Categoria categoria)
+        public ActionResult Edit([Bind(Include = "CategoriaId,nome")] Categoria categoria)
         {
             return SalveCategoria(categoria);
         }
@@ -108,9 +108,16 @@ namespace Interdisciplinar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Categoria categoria = categoriaServico.Delete(id);
-            TempData["Message"] = "Categoria" + categoria.nome.ToUpper() + "Foi Removida";
-            return RedirectToAction("Index");
+            try
+            {
+                Categoria categoria = categoriaServico.Delete(id);
+                TempData["Message"] = "Categoria" + categoria.nome.ToUpper() + "Foi Removida";
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

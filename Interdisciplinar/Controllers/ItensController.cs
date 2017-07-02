@@ -17,6 +17,7 @@ namespace Interdisciplinar.Controllers
         #region [Metodos]
         private EFContext db = new EFContext();
         private ItemServicos itemServicos = new ItemServicos();
+        private CategoriaServicos categoriaServicos = new CategoriaServicos();
 
         private ActionResult GetViewItemId(long? id)
         {
@@ -51,8 +52,13 @@ namespace Interdisciplinar.Controllers
         {
             if (item == null)
             {
-                ViewBag.id = new SelectList(itemServicos.GetOrderedByName(),
-                    "id", "nome");
+                ViewBag.CategoriaId = new SelectList(categoriaServicos.GetOrderedByName(),
+                    "CategoriaId", "nome");
+            }
+            else
+            {
+                ViewBag.CategoriaId = new SelectList(categoriaServicos.GetOrderedByName(),
+                   "CategoriaId", "nome",item.CategoriaId);
             }
         }
 
@@ -84,7 +90,7 @@ namespace Interdisciplinar.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,nome,categoriaId")] Item item)
+        public ActionResult Create([Bind(Include = "ItemId,nome,CategoriaId")] Item item)
         {
             return SalveItem(item);
         }
@@ -101,7 +107,7 @@ namespace Interdisciplinar.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,nome,categoriaId")] Item item)
+        public ActionResult Edit([Bind(Include = "ItemId,nome,CategoriaId")] Item item)
         {
             
             return SalveItem(item);
@@ -118,9 +124,16 @@ namespace Interdisciplinar.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            Item item = itemServicos.Delete(id);
-            TempData["Message"] = "Itens" + item.nome.ToUpper() + "Foi Removido";
-            return RedirectToAction("Index");
+            try
+            {
+                Item item = itemServicos.Delete(id);
+                TempData["Message"] = "Itens" + item.nome.ToUpper() + "Foi Removido";
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         protected override void Dispose(bool disposing)

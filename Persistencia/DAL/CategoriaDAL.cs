@@ -23,7 +23,7 @@ namespace Persistencia.DAL
 
         private string GetName(Categoria b)
         {
-            if (b. id > 0)
+            if (b. CategoriaId > 0)
                 return b.nome;
             return string.Empty;
         }
@@ -32,13 +32,13 @@ namespace Persistencia.DAL
         {
             return context
                 .Categorias
-                .Where(s => s.id == id)
+                .Where(s => s.CategoriaId == id)
                 .First();
         }
 
         public void Save(Categoria item)
         {
-            if (item.id == 0)
+            if (item.CategoriaId == 0)
                 context.Categorias.Add(item);
             else
                 context.Entry(item).State = EntityState.Modified;

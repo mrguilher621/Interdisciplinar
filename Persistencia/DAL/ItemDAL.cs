@@ -29,7 +29,7 @@ namespace Persistencia.DAL
         public Item ById(long id)
         {
             return context.Itens
-                .Where(p => p.Id == id)
+                .Where(p => p.ItemId == id)
                 .Include(c => c.Categoria)
                 .First();
         }
@@ -38,13 +38,13 @@ namespace Persistencia.DAL
         {
             return context
                 .Itens
-                .Where(p => p.categoriaId.HasValue &&
-                p.categoriaId.Value == categoriaId);
+                .Where(p => p.ItemId.HasValue &&
+                p.CategoriaId.Value == categoriaId);
         }
 
         public void Save(Item item)
         {
-            if (item.Id == null)
+            if (item.ItemId == null)
                 context.Itens.Add(item);
             else
                 context.Entry(item).State = EntityState.Modified;
@@ -54,8 +54,8 @@ namespace Persistencia.DAL
 
         public Item Delete(long id)
         {
-            var item = ById(id);
 
+            Item item = ById(id);
             context.Itens.Remove(item);
             context.SaveChanges();
 

@@ -8,7 +8,7 @@ namespace Modelos.Cadastros
 {
     public class Categoria
     {
-        public long? id { get; set; }
+        public long? CategoriaId { get; set; }
         public String nome { get; set; }
 
         public virtual ICollection<Item> Itens { get; set; }

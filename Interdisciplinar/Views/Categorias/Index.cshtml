@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Interdisciplinar.Models.Categoria>
+﻿@model IEnumerable<Modelos.Cadastros.Categoria>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -29,9 +29,9 @@
                     @Html.DisplayFor(modelItem => item.nome)
                 </td>
                 <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.id })	|
-                    @Html.ActionLink("Detalhes", "Details", new { id = item.id })	|
-                    @Html.ActionLink("Deletar", "Delete", new { id = item.id })
+                    @Html.ActionLink("Editar", "Edit", new { id = item.CategoriaId })	|
+                    @Html.ActionLink("Detalhes", "Details", new { id = item.CategoriaId })	|
+                    @Html.ActionLink("Deletar", "Delete", new { id = item.CategoriaId })
                 </td>
             </tr> }
     </table>
